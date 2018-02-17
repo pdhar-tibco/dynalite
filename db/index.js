@@ -3,11 +3,14 @@ var crypto = require('crypto'),
     async = require('async'),
     Lazy = require('lazy'),
     levelup = require('levelup'),
+    leveldown = require('leveldown')
     memdown = require('memdown'),
+    filedown = require('./filedown').default
+    encode = require('encoding-down')
     sublevel = require('level-sublevel'),
-    Lock = require('lock'),
+    Lock = require('lock').Lock,
     Big = require('big.js')
-
+    
 exports.MAX_SIZE = 409600 // TODO: get rid of this? or leave for backwards compat?
 exports.create = create
 exports.lazy = lazyStream
@@ -45,12 +48,15 @@ function create(options) {
   if (options.maxItemSizeKb == null) options.maxItemSizeKb = exports.MAX_SIZE / 1024
   options.maxItemSize = options.maxItemSizeKb * 1024
 
-  var db = levelup(options.path, options.path ? {} : {db: memdown}),
+  // var db = levelup(options.path, options.path ? {} : {db: memdown}),
+  // var db = levelup(options.path ? leveldown(options.path) : memdown()),
+  var db = levelup(options.path ? encode(filedown(options.path)) : memdown()),
+  // var db = options.path ? level(options.path) : memdown(),
       sublevelDb = sublevel(db),
       tableDb = sublevelDb.sublevel('table', {valueEncoding: 'json'}),
       subDbs = Object.create(null)
 
-  tableDb.lock = new Lock()
+  tableDb.lock = Lock()
 
   // XXX: Is there a better way to get this?
   tableDb.awsAccountId = (process.env.AWS_ACCOUNT_ID || '0000-0000-0000').replace(/[^\d]/g, '')
@@ -75,7 +81,7 @@ function create(options) {
   function getSubDb(name) {
     if (!subDbs[name]) {
       subDbs[name] = sublevelDb.sublevel(name, {valueEncoding: 'json'})
-      subDbs[name].lock = new Lock()
+      subDbs[name].lock = Lock()
     }
     return subDbs[name]
   }

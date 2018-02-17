@@ -3,3 +3,5 @@ npm-debug.log
 coverage*
 .tern-port
 v8.log
+testdata
+package-lock.json

@@ -6,7 +6,7 @@ if (argv.help) {
   // eslint-disable-next-line no-console
   return console.log([
     '',
-    'Usage: dynalite [--port <port>] [--path <path>] [options]',
+    'Usage: dynalite-filedown [--port <port>] [--path <path>] [options]',
     '',
     'A DynamoDB http server, optionally backed by LevelDB',
     '',
@@ -25,10 +25,33 @@ if (argv.help) {
 }
 
 // If we're PID 1, eg in a docker container, SIGINT won't end the process as usual
-if (process.pid == 1) process.on('SIGINT', process.exit)
+// if (process.pid == 1) process.on('SIGINT', process.exit)
+// If we're PID 1, eg in a docker container, SIGINT won't end the process as usual
+// if (process.pid == 1) 
+process.on('SIGINT', handle)
+process.on('SIGHUP', handle)
+process.on('SIGTERM', handle)
+var dynaliteServer;
 
-var server = require('./index.js')(argv).listen(argv.port || 4567, function() {
-  var address = server.address(), protocol = argv.ssl ? 'https' : 'http'
+function handle(signal) {
+    console.log(`Received ${signal}`);
+    if(dynaliteServer) {
+        console.log("Closing Server");
+        dynaliteServer.close((err)=>{
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Server closed");
+            }
+            process.exit();
+        });
+    }
+    
+}
+
+dynaliteServer = require('./index.js')(argv);
+dynaliteServer.listen(argv.port || 4567, function() {
+  var address = dynaliteServer.address(), protocol = argv.ssl ? 'https' : 'http'
   // eslint-disable-next-line no-console
   console.log('Listening at %s://%s:%s', protocol, address.address, address.port)
 })

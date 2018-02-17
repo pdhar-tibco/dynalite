@@ -1,7 +1,7 @@
 {
-  "name": "dynalite",
+  "name": "dynalite-filedown",
   "version": "1.2.0",
-  "description": "An implementation of Amazon's DynamoDB built on LevelDB",
+  "description": "An implementation of Amazon's DynamoDB built on serialized RBT",
   "main": "index.js",
   "bin": "cli.js",
   "scripts": {
@@ -19,23 +19,36 @@
     "dynamo",
     "leveldb"
   ],
-  "author": "Michael Hart <michael.hart.au@gmail.com>",
+  "author": "Pranab Dhar<pranab.dhar@gmail.com>, Michael Hart <michael.hart.au@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "abstract-leveldown": "^4.0.2",
     "async": "^2.1.4",
     "big.js": "^3.1.3",
     "buffer-crc32": "^0.2.13",
+    "circular-json": "^0.5.1",
+    "del": "^3.0.0",
+    "encoding-down": "^4.0.0",
+    "graceful-fs": "^4.1.11",
+    "immediate": "^3.2.3",
+    "inherits": "^2.0.3",
+    "iota-array": "^1.0.0",
     "lazy": "^1.0.11",
     "level-sublevel": "^6.6.1",
-    "leveldown": "^1.5.1",
-    "levelup": "^1.3.3",
-    "lock": "^0.1.3",
+    "leveldown": "^3.0.0",
+    "levelup": "^2.0.2",
+    "lock": "^1.1.0",
+    "ltgt": "^2.2.0",
     "memdown": "^1.2.4",
     "minimist": "^1.2.0",
-    "once": "^1.4.0"
+    "once": "^1.4.0",
+    "safe-buffer": "^5.1.1",
+    "tape": "^4.8.0",
+    "util": "0.10.3",
+    "write": "^1.0.3"
   },
   "optionalDependencies": {
-    "leveldown": "^1.4.4"
+    "leveldown": "^3.0.0"
   },
   "devDependencies": {
     "aws4": "^1.5.0",

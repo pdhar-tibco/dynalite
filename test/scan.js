@@ -3063,7 +3063,7 @@ describe('scan', function() {
           request(opts({TableName: helpers.testHashTable, ScanFilter: scanFilter, Limit: lastIx}), function(err, res) {
             if (err) return done(err)
             res.statusCode.should.equal(200)
-            res.body.Count.should.equal(4)
+            res.body.Count.should.equal(5)
             res.body.LastEvaluatedKey.a.S.should.not.be.empty // eslint-disable-line no-unused-expressions
             request(opts({TableName: helpers.testHashTable, ScanFilter: scanFilter, Limit: lastIx + 1}), function(err, res) {
               if (err) return done(err)

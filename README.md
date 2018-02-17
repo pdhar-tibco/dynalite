@@ -1,10 +1,14 @@
-dynalite
+dynalite-filedown
 --------
 
 [![Build Status](https://secure.travis-ci.org/mhart/dynalite.png?branch=master)](http://travis-ci.org/mhart/dynalite)
 
-An implementation of Amazon's DynamoDB, focussed on correctness and performance, and built on LevelDB
-(well, [@rvagg](https://github.com/rvagg)'s awesome [LevelUP](https://github.com/rvagg/node-levelup) to be precise).
+An implementation of Amazon's DynamoDB, focussed on correctness and performance, and built on orginally from LevelDB
+(well, [@rvagg](https://github.com/rvagg)'s awesome [LevelUP](https://github.com/rvagg/node-levelup) to be precise) 
+
+and then added a modified [memdown](https://github.com/Level/memdown) , [functional-red-black-tree](https://github.com/mikolalysenko/functional-red-black-tree) and serialization from [flat-cache](https://github.com/royriojas/flat-cache)
+
+[Issue Solved:] (https://github.com/mhart/dynalite/issues/85) LevelDB is unreliable on alpine linux due to native bindings where the server crashes will SIGILL on restarts and not able to read the serialized storage.
 
 This project aims to match the live DynamoDB instances as closely as possible
 (and is tested against them in various regions), including all limits and error messages.
@@ -36,7 +40,7 @@ Example
 ```sh
 $ dynalite --help
 
-Usage: dynalite [--port <port>] [--path <path>] [options]
+Usage: dynalite-filedown [--port <port>] [--path <path>] [options]
 
 A DynamoDB http server, optionally backed by LevelDB
 
@@ -50,7 +54,7 @@ Options:
 --updateTableMs <ms>  Amount of time tables stay in UPDATING state (default: 500)
 --maxItemSizeKb <kb>  Maximum item size (default: 400)
 
-Report bugs at github.com/mhart/dynalite/issues
+Report bugs at github.com/pdhar/dynalite/issues
 ```
 
 Or programmatically:
