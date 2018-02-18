@@ -41,6 +41,7 @@
     "ltgt": "^2.2.0",
     "memdown": "^1.2.4",
     "minimist": "^1.2.0",
+    "msgpack-lite": "^0.1.26",
     "once": "^1.4.0",
     "safe-buffer": "^5.1.1",
     "tape": "^4.8.0",

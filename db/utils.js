@@ -1,6 +1,7 @@
 var fs = require( 'graceful-fs' );
 var write = require( 'write' );
 var circularJson = require( 'circular-json' );
+var msgpack = require("msgpack-lite");
 
 module.exports = {
 
@@ -22,7 +23,8 @@ module.exports = {
    * @returns {*} parse result
    */
   readJSON: function ( filePath ) {
-    return circularJson.parse( fs.readFileSync( filePath ).toString() );
+    // return circularJson.parse( fs.readFileSync( filePath ).toString() );
+    return   msgpack.decode(fs.readFileSync(filePath));
   },
 
   /**
@@ -35,7 +37,8 @@ module.exports = {
   writeJSON: function (filePath, data ) {
     if(fs.existsSync(filePath))
       fs.copyFileSync(filePath,filePath+".bak")
-    write.sync( filePath, circularJson.stringify( data ) );
+    // write.sync( filePath, circularJson.stringify( data ) );
+    write.sync(filePath,msgpack.encode( data ));
   }
 
 };
