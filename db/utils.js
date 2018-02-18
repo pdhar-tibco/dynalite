@@ -33,6 +33,8 @@ module.exports = {
    * @param  {*} data Object to serialize
    */
   writeJSON: function (filePath, data ) {
+    if(fs.existsSync(filePath))
+      fs.copyFileSync(filePath,filePath+".bak")
     write.sync( filePath, circularJson.stringify( data ) );
   }
 
